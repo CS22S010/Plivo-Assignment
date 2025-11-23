@@ -19,7 +19,7 @@ def parse_args():
     ap.add_argument("--batch_size", type=int, default=8)
     ap.add_argument("--epochs", type=int, default=3)
     ap.add_argument("--lr", type=float, default=5e-5)
-    ap.add_argument("--max_length", type=int, default=256)
+    ap.add_argument("--max_length", type=int, default=128)
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     return ap.parse_args()
 
@@ -67,6 +67,8 @@ def main():
 
         avg_loss = running_loss / max(1, len(train_dl))
         print(f"Epoch {epoch+1} average loss: {avg_loss:.4f}")
+
+    #model.config.pruned = True
 
     model.save_pretrained(args.out_dir)
     tokenizer.save_pretrained(args.out_dir)

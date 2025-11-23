@@ -51,14 +51,14 @@ def main():
     ap.add_argument("--model_name", default=None)
     ap.add_argument("--input", default="data/dev.jsonl")
     ap.add_argument("--output", default="out/dev_pred.json")
-    ap.add_argument("--max_length", type=int, default=256)
+    ap.add_argument("--max_length", type=int, default=128)
     ap.add_argument(
         "--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = ap.parse_args()
 
     tokenizer = AutoTokenizer.from_pretrained(
         args.model_dir if args.model_name is None else args.model_name)
-    model = AutoModelForTokenClassification.from_pretrained(args.model_dir)
+    model = AutoModelForTokenClassification.from_pretrained(args.model_dir, ignore_mismatched_sizes=True)
     model.to(args.device)
     model.eval()
 
